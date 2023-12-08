@@ -21,5 +21,5 @@
     (each [l (io.lines filename)]
       (set sum (+ sum (extract-number l))))
     sum)
-(sum-lines "input") ; 56108
+(print (sum-lines "input")) ; 56108
 
