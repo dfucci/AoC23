@@ -23,8 +23,16 @@
 (fn get-game-number [g]
   (tonumber (string.match g "%d+")))
 
+(fn draw->table [draw]
+  (let [number (tonumber (string.match draw "%d+")) 
+        color (string.match draw "[^ %d+]+")]
+    {:color color :number number}))
+
 (fn is-more-than-bag? [draw]
-  (let [number (tonumber (string.match draw "%d+")) color (string.match draw "[^ %d+]+") bag-number (tonumber (. bag color))]
+  (let [t (draw->table draw)
+        color (. t :color) 
+        number (. t :number)
+        bag-number (tonumber (. bag color))]
     (> number bag-number)))
 
 (fn line->table [line]
