@@ -27,14 +27,18 @@
   (let [number (tonumber (string.match draw "%d+")) color (string.match draw "[^ %d+]+") bag-number (tonumber (. bag color))]
     (> number bag-number)))
 
-(fn line-score [line]
-  (var impossible false)
+(fn line->table [line]
   (let [clean-game (remove-whitespaces line)
         game-split (split-string clean-game ":")
         game-number (get-game-number (. game-split 1))
         game-results (. game-split 2)
         draws (split-string game-results ";") 
         draw (icollect [_ v (ipairs draws)] (split-string v ","))]
+     [draw game-number]))
+
+(fn line-score [line]
+  (var impossible false)
+  (let [[draw game-number] (line->table line)]
     (each [_ v (pairs draw) ]  
       (each [_ y (pairs v) &until impossible]
         (if (is-more-than-bag?  y)
@@ -46,4 +50,3 @@
   (+ sum (line-score l))))
 (print (game-score))
 
- ; Part 2 
